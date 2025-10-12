@@ -3,8 +3,5 @@
   "private": true,
   "scripts": {
     "build": "npx quartz build"
-  },
-  "devDependencies": {
-    "quartz": "latest"
   }
 }
