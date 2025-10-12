@@ -1,7 +1,11 @@
-﻿.obsidian/workspace.json
-.obsidian/appearance.json
 .DS_Store
-Thumbs.db
-*.tmp
-*.log
-.cache/
+.gitignore
+node_modules
+public
+prof
+tsconfig.tsbuildinfo
+.obsidian
+.quartz-cache
+private/
+.replit
+replit.nix
