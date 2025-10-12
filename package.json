@@ -1,10 +1,10 @@
 ﻿{
-"name": "obsidian-vault",
-"private": true,
-"scripts": {
-"build": "quartz build"
-},
-"devDependencies": {
-"quartz": "latest"
-}
+  "name": "obsidian-vault",
+  "private": true,
+  "scripts": {
+    "build": "npx quartz build"
+  },
+  "devDependencies": {
+    "quartz": "latest"
+  }
 }
