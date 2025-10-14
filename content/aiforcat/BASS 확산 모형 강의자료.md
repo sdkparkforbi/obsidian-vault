@@ -19,7 +19,7 @@
 
 **Hazard Rate (위험률)**
 
-- 시점 t까지 채택하지 않은 개체가 시점 t에서 채택할 조건부 확률률
+- 시점 t까지 채택하지 않은 개체가 시점 t에서 채택할 조건부 확률
 - 정의:
 
 $$h(t) = \frac{f(t)}{1-F(t)}$$
@@ -150,6 +150,9 @@ $$n_t = a + b \cdot N_{t-1} + c \cdot N_{t-1}^2$$
 
 ## 5. Python 구현 (Google Colab)
 
+
+https://colab.research.google.com/drive/11W79ZO8OuBfSO8XXDPE0QqJJCQ2YLtu5?usp=sharing
+
 ### 1) 필요 라이브러리 및 기본 설정
 
 ```python
@@ -171,7 +174,20 @@ warnings.filterwarnings('ignore')
 # 한글 폰트 설정
 !pip install -q koreanize_matplotlib
 import koreanize_matplotlib
+import matplotlib.font_manager as fm
 
+# 현재 설정된 폰트 이름 확인
+font_name = plt.rcParams['font.family'][0]
+print(f"현재 폰트 이름: {font_name}")
+
+# 해당 폰트의 실제 파일 경로 찾기
+font_path = fm.findfont(font_name)
+print(f"폰트 파일 경로: {font_path}")
+
+# 해당 폰트의 속성
+font_prop = fm.FontProperties(fname=font_path)
+print(f"폰트 속성: {font_prop}")
+ 
 print("환경 설정 완료")
 ```
 
@@ -310,6 +326,8 @@ print(f"RMSE: {rmse:.2f}")
 
 # 시각화 (Seaborn 스타일 적용)
 sns.set_style("whitegrid")
+sns.set(font=font_name)
+
 fig, axes = plt.subplots(2, 2, figsize=(14, 10))
 
 # 1) 누적 채택자 수
