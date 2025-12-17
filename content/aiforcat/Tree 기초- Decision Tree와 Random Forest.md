@@ -181,7 +181,7 @@ Gini = 1 - (0.75² + 0.25²)
 ΔGini = Gini(부모) - [n₁/n × Gini(R₁) + n₂/n × Gini(R₂)]
 ```
 
-### 4.4 알고리즘: CART
+### 4.4 알고리즘: CART(Classification And Regression Trees)
 
 ```python
 def build_tree(data, depth=0, max_depth=5):
@@ -257,6 +257,8 @@ Cost = RSS + α × |T|
 ---
 
 ## 6. 시뮬레이션: 참 모수 복원
+
+https://colab.research.google.com/drive/1liynb_aCyPj2TpCaUHGREiWqQGRv6i75?usp=sharing
 
 ### 6.1 참 모형 설정
 
