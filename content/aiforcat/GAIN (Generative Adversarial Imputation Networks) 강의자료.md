@@ -107,7 +107,8 @@ $$\mathcal{L}_G = -\mathbb{E}_{\mathbf{X}, \mathbf{M}, \mathbf{Z}}[(1-\mathbf{M}
 
 #### 2.4.1 미니맥스 게임
 
-- 최적화 문제 정의 $$\min_G \max_D V(D, G) $$
+- 최적화 문제 정의 $$\min_G \max_D V(D, G)$$
+where 
 $$V(D, G) = \mathbb{E}_{\mathbf{\hat{X}}, \mathbf{M}, \mathbf{H}}\left[\mathbf{M}^T \log D(\mathbf{\hat{X}}, \mathbf{H}) + (1-\mathbf{M})^T \log(1 - D(\mathbf{\hat{X}}, \mathbf{H}))\right]$$
 
 #### 2.4.2 교대 최적화 (Alternating Optimization)
