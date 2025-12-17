@@ -193,20 +193,54 @@ Gain < 0 이면 분할 중단
 
 ### 3.5 Python 코드
 
+https://colab.research.google.com/drive/1IRM-zZE03uJtdEaQmt-v4e30U0SRui1v?usp=sharing
+
 ```python
 import xgboost as xgb
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
 
-# 데이터 준비
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+# ============================================
+# 1. 예시 데이터 생성 (카페 매출 예측)
+# ============================================
+np.random.seed(42)
+n_samples = 1000
+
+X = pd.DataFrame({
+    '기온': np.random.uniform(0, 35, n_samples),
+    '강수량': np.random.uniform(0, 50, n_samples),
+    '주말': np.random.randint(0, 2, n_samples),
+    '프로모션': np.random.randint(0, 2, n_samples),
+    '경쟁업체_거리': np.random.uniform(0.1, 5, n_samples)
+})
+
+# 실제 관계 + 노이즈
+y = (100 
+     + 2.5 * X['기온'] 
+     - 1.8 * X['강수량'] 
+     + 35 * X['주말'] 
+     + 25 * X['프로모션']
+     + 10 * X['경쟁업체_거리']
+     + np.random.normal(0, 15, n_samples))
+
+print(f"데이터 shape: X={X.shape}, y={y.shape}")
+print(f"매출 범위: {y.min():.1f} ~ {y.max():.1f}")
+
+# ============================================
+# 2. 데이터 분할
+# ============================================
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # DMatrix 생성 (XGBoost 최적화 데이터 구조)
 dtrain = xgb.DMatrix(X_train, label=y_train)
 dtest = xgb.DMatrix(X_test, label=y_test)
 
-# 하이퍼파라미터
+# ============================================
+# 3. 하이퍼파라미터 설정
+# ============================================
 params = {
     'objective': 'reg:squarederror',  # 손실 함수
     'max_depth': 6,                    # 트리 깊이
@@ -215,35 +249,71 @@ params = {
     'gamma': 0,                        # 분할 최소 gain
     'subsample': 0.8,                  # 샘플 비율
     'colsample_bytree': 0.8,           # 변수 비율
+    'eval_metric': 'rmse'
 }
 
-# 학습
+# ============================================
+# 4. 모델 학습
+# ============================================
+evals_result = {}
+
 model = xgb.train(
     params,
     dtrain,
     num_boost_round=100,
     evals=[(dtrain, 'train'), (dtest, 'test')],
     early_stopping_rounds=10,
-    verbose_eval=10
+    verbose_eval=10,
+    evals_result=evals_result
 )
 
-# 예측
+# ============================================
+# 5. 예측 및 평가
+# ============================================
 y_pred = model.predict(dtest)
 rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-print(f"Test RMSE: {rmse:.4f}")
+print(f"\n최종 Test RMSE: {rmse:.4f}")
+
+# ============================================
+# 6. 시각화
+# ============================================
+fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+
+# 학습 곡선
+axes[0].plot(evals_result['train']['rmse'], label='Train')
+axes[0].plot(evals_result['test']['rmse'], label='Test')
+axes[0].set_xlabel('Boosting Round')
+axes[0].set_ylabel('RMSE')
+axes[0].set_title('Learning Curve')
+axes[0].legend()
+
+# 변수 중요도
+xgb.plot_importance(model, ax=axes[1], importance_type='gain')
+axes[1].set_title('Feature Importance (Gain)')
+
+# 실제 vs 예측
+axes[2].scatter(y_test, y_pred, alpha=0.5)
+axes[2].plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')
+axes[2].set_xlabel('Actual')
+axes[2].set_ylabel('Predicted')
+axes[2].set_title(f'Actual vs Predicted (RMSE={rmse:.2f})')
+
+plt.tight_layout()
+plt.show()
 ```
 
+---
 ### 3.6 주요 하이퍼파라미터
 
-|파라미터|설명|권장값|
-|:--|:--|:--|
-|max_depth|트리 최대 깊이|3~10|
-|eta (learning_rate)|학습률|0.01~0.3|
-|n_estimators|트리 개수|100~1000|
-|lambda (reg_lambda)|L2 정규화|0~10|
-|gamma|분할 최소 gain|0~5|
-|subsample|샘플 비율|0.5~1.0|
-|colsample_bytree|변수 비율|0.5~1.0|
+| 파라미터                | 설명         | 권장값      |
+| :------------------ | :--------- | :------- |
+| max_depth           | 트리 최대 깊이   | 3~10     |
+| eta (learning_rate) | 학습률        | 0.01~0.3 |
+| n_estimators        | 트리 개수      | 100~1000 |
+| lambda (reg_lambda) | L2 정규화     | 0~10     |
+| gamma               | 분할 최소 gain | 0~5      |
+| subsample           | 샘플 비율      | 0.5~1.0  |
+| colsample_bytree    | 변수 비율      | 0.5~1.0  |
 
 ---
 
@@ -522,22 +592,23 @@ import numpy as np
 from sklearn.ensemble import GradientBoostingRegressor
 import matplotlib.pyplot as plt
 
-# 참 모형: y = x² + sin(2x) + noise
+# 데이터 생성 (이 부분이 먼저 실행되어야 함)
 np.random.seed(42)
-n = 500
-x = np.random.uniform(-3, 3, n)
-y_true = x**2 + np.sin(2*x)
-y = y_true + np.random.normal(0, 0.5, n)
+x = np.random.uniform(-3, 3, 500).reshape(-1, 1)
+y_true = np.sin(x) + 0.5 * np.cos(2*x)  # 실제 함수
+y = y_true.reshape(-1) + np.random.normal(0, 0.2, 500)  # 노이즈 추가
 
-X = x.reshape(-1, 1)
+X = x  # 학습용
 ```
 
 ### 6.2 학습 및 비교
 
 ```python
+
 # 다양한 트리 개수로 학습
 n_estimators_list = [1, 5, 10, 50, 100]
 x_plot = np.linspace(-3, 3, 100).reshape(-1, 1)
+y_true_plot = np.sin(x_plot) + 0.5 * np.cos(2*x_plot)  # ← x_plot 기준으로 계산
 
 fig, axes = plt.subplots(1, 5, figsize=(20, 4))
 
@@ -551,14 +622,13 @@ for i, n_est in enumerate(n_estimators_list):
     y_pred = model.predict(x_plot)
     
     axes[i].scatter(x, y, alpha=0.3, s=10)
-    axes[i].plot(x_plot, y_true.reshape(-1), 'g-', label='True', linewidth=2)
+    axes[i].plot(x_plot, y_true_plot, 'g-', label='True', linewidth=2)  # ← 수정
     axes[i].plot(x_plot, y_pred, 'r-', label='Pred', linewidth=2)
     axes[i].set_title(f'n_estimators = {n_est}')
     axes[i].legend()
 
 plt.tight_layout()
-plt.show()
-```
+plt.show()```
 
 ### 6.3 학습 곡선
 
