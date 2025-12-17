@@ -82,10 +82,11 @@
 
 - 힌트 벡터 생성
 
-$h_{ij} = \begin{cases} m_{ij} & \text{with probability } p \ 0.5 & \text{with probability } 1-p \end{cases}$
+$$h_{ij} = \begin{cases} m_{ij} & \text{with probability } p \\ 0.5 & \text{with probability } 1-p \end{cases}$$
 
 - $p$: hint rate (일반적으로 0.9 사용)
 
+$$\mathcal{H} = \mathbf{B}\odot \mathbf{M} + 0.5(1-\mathbf{B})$$
 ### 2.3 손실 함수
 
 #### 2.3.1 Discriminator 손실
@@ -98,7 +99,7 @@ $$\mathcal{L}_D = -\mathbb{E}_{\mathbf{X}, \mathbf{M}}[\mathbf{M}^T \log \mathbf
 
 $$\mathcal{L}_G = -\mathbb{E}_{\mathbf{X}, \mathbf{M}, \mathbf{Z}}[(1-\mathbf{M})^T \log \mathbf{\hat{M}}] + \alpha \cdot \mathcal{L}_{MSE}$$
 
-여기서 재구성 손실: $$\mathcal{L}_{MSE} = ||\mathbf{M} \odot \mathbf{X} - \mathbf{M} \odot \mathbf{\hat{X}}||_2^2$$
+여기서 재구성 손실: $$\mathcal{L}_{MSE} = ||\mathbf{(1-M)} \odot \mathbf{X} - \mathbf{(1-M)} \odot \mathbf{\hat{X}}||_2^2$$
 
 - $\alpha$: 재구성 손실 가중치 (하이퍼파라미터)
 
@@ -106,7 +107,7 @@ $$\mathcal{L}_G = -\mathbb{E}_{\mathbf{X}, \mathbf{M}, \mathbf{Z}}[(1-\mathbf{M}
 
 #### 2.4.1 미니맥스 게임
 
-- 최적화 문제 정의 $$\min_G \max_D V(D, G) = \mathcal{L}_D - \mathcal{L}_G$$
+- 최적화 문제 정의 $$\min_G \max_D V(D, G) $$$$V(D, G) = \mathbb{E}_{\mathbf{\hat{X}}, \mathbf{M}, \mathbf{H}}\left[\mathbf{M}^T \log D(\mathbf{\hat{X}}, \mathbf{H}) + (1-\mathbf{M})^T \log(1 - D(\mathbf{\hat{X}}, \mathbf{H}))\right]$$**"D가 얼마나 잘 구분하고 있는가"**를 측정하는 점수
 
 #### 2.4.2 교대 최적화 (Alternating Optimization)
 
@@ -133,6 +134,8 @@ $$\mathcal{L}_G = -\mathbb{E}_{\mathbf{X}, \mathbf{M}, \mathbf{Z}}[(1-\mathbf{M}
     - Adam optimizer 사용 시 기본값
 
 ## 3. 코드 구현
+
+https://colab.research.google.com/drive/18HWf_kY8CvDeLFN_hEjY_of9mrcHb7f_?usp=sharing
 
 ### 3.1 환경 설정
 
