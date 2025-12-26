@@ -1,6 +1,6 @@
 
 
-## 1. 왜 단어를 벡터로?
+## 1. 왜 단어를 숫자 벡터로?
 
 ### 1.1 문제 상황
 
@@ -396,6 +396,8 @@ Negative Sampling (k=5): O(k+1) = O(6)
 ### 8.1 목표
 
 모수를 가정하고 데이터를 생성한 후, 추정이 제대로 되는지 확인
+
+https://colab.research.google.com/drive/1UvL7Sx3_COdQ9ot9t7-IZ_DHcSJbVq4p?usp=sharing
 
 ### 8.2 설정
 
