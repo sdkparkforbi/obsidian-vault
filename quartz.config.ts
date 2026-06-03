@@ -17,7 +17,7 @@ const config: QuartzConfig = {
     },
     locale: "en-US",
     baseUrl: "sdkparkforbi.github.io/obsidian-vault",
-    ignorePatterns: ["private", "templates", ".obsidian"],
+    ignorePatterns: ["private", "templates", ".obsidian", "**/_RedBook_재료수집*", "**/_빈칸_초안*"],
     defaultDateType: "modified",
     theme: {
       fontOrigin: "googleFonts",
