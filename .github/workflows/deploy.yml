@@ -28,6 +28,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: jackyzha0/quartz
+          ref: v4.5.2
           path: quartz
           fetch-depth: 0
       
