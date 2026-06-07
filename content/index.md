@@ -5,7 +5,7 @@ title: Teaching Notes
 # 박대근 (Peter) | Teaching & Research Notes
 
 차의과학대학교 일반대학원 AI헬스케어융합학과 학과장
-강의 자료, 연구 노트, 프로젝트 기록을 모아두는 공간입니다.
+강의 자료, 연구 노트, 프로젝트 기록을 모아두는 공간입니다
 
 ---
 
@@ -29,4 +29,4 @@ title: Teaching Notes
 
 ---
 
-> 본 사이트는 [Quartz](https://quartz.jzhao.xyz/) 기반으로 운영됩니다.
+> 본 사이트는 [Quartz](https://quartz.jzhao.xyz/) 기반으로 운영됩니다
