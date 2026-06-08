@@ -15,6 +15,7 @@ title: Teaching Notes
 - [금융시장론](finmarket/)
 - [생성형AI를 활용한 비정형데이터분석](genaiuda/)
 - [경영통계](statistics/)
+- [경영빅데이터분석](bizbig/)
 - [생성형AI를 활용한 시계열 예측](aiforcat/)
 
 ## 🤖 AI 시스템 & 응용

@@ -1,0 +1,63 @@
+---
+title: 경영빅데이터분석 (BizBig)
+---
+
+# 경영빅데이터분석 (Business Big Data Analysis)
+
+R을 이용해 경영·비즈니스 데이터를 다루는 전 과정을 실습으로 익히는 강의임. 데이터를 **가져오고(ETL) → 깨끗이 다듬고(정제) → 살펴보고(탐색) → 모형으로 설명·예측(회귀·시계열)** 하는 분석 파이프라인을 순서대로 따라감.
+
+실습 환경은 **Google Colab의 R 런타임**을 기준으로 함. 별도 설치 없이 브라우저에서 R 코드를 실행할 수 있어 수업용으로 적합함. (런타임 유형을 R로 바꾸는 방법은 각 챕터의 도입부에 안내되어 있음)
+
+---
+
+## 📦 실습 환경 준비 (공통)
+
+1. **Colab 런타임을 R로 설정**함
+   - 메뉴: `런타임(Runtime)` → `런타임 유형 변경(Change runtime type)` → `R` 선택
+   - 또는 https://colab.research.google.com/#create=true&language=r 로 새 R 노트북을 엶
+2. **공유 드라이브 연결**: 실습 데이터가 들어 있는 공유 드라이브를 내 드라이브에 바로가기로 추가함
+   - 정리 → 바로가기 추가 → 내 드라이브에 추가
+3. 코드 셀은 **위에서 아래로 순서대로** 실행함. 앞 셀에서 만든 객체를 뒤 셀이 사용하기 때문임
+
+---
+
+## 📚 챕터 (Chapters)
+
+- [[01. ETL — 데이터 추출·변환·적재]]
+  데이터를 읽어오고(Extract), `dplyr`로 가공하고(Transform), 결과를 파일로 저장(Load)하는 흐름
+- [[02. 데이터 정제|02. 데이터 정제 (Data Cleansing)]]
+  결측치·오류값 찾아 고치기, 분석에 맞는 자료형으로 변환, 문자열 표준화
+- [[03. 탐색적 데이터 분석|03. 탐색적 데이터 분석 (EDA)]]
+  요약통계·시각화·상관분석으로 데이터의 구조와 관계를 파악함 (가성상관 주의)
+- [[04. 선형회귀|04. 선형회귀 (Linear Regression)]]
+  단순·다중 회귀, 회귀 가정 진단(정규성·등분산·자기상관), 예측과 신뢰구간
+- [[05. 시계열 분석|05. 시계열 분석 (Time Series Analysis)]]
+  추세·계절성 분해, 차분, ACF/PACF, ARIMA·auto.arima·TBATS 예측
+
+---
+
+## 🔗 분석 파이프라인 한눈에 보기
+
+```
+원천 데이터
+  │  ① Extract        read.csv()
+  ▼
+원시 데이터프레임
+  │  ② Cleanse        결측·오류 처리, 자료형 변환, 문자열 표준화
+  ▼
+정제 데이터
+  │  ③ Transform      dplyr: filter / select / mutate / group_by / summarise
+  ▼
+분석용 데이터
+  │  ④ Explore        summary, plot, cor, corrgram
+  ▼
+이해된 데이터
+  │  ⑤ Model          lm(회귀) / ARIMA·TBATS(시계열)
+  ▼
+설명·예측 결과
+  │  ⑥ Load           write.csv()
+  ▼
+비즈니스 의사결정
+```
+
+> 본 강의 자료는 *Introduction to R for Business Intelligence* 의 예제를 한국어 자습서로 재구성한 것임
