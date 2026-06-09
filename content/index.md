@@ -28,6 +28,10 @@ title: Teaching Notes
 - [ABSwitch — 단일클론항체 IV-to-SC 전환 예측](abswitch/)
 - [TRN 2차 프로젝트](trnsess2/)
 
+## 🛠 도구 & 기술 노트
+
+- [HWPX 자동 생성 가이드](hwpxgen/) — 파이썬으로 한글 문서(.hwpx)를 코드로 찍어내는 실전 가이드 (v6)
+
 ---
 
 > 본 사이트는 [Quartz](https://quartz.jzhao.xyz/) 기반으로 운영됨
