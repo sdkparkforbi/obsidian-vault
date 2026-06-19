@@ -19,20 +19,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout content
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           path: vault
       
       - name: Checkout Quartz
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: jackyzha0/quartz
           ref: v4.5.2
           path: quartz
           fetch-depth: 0
       
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
       
@@ -55,7 +55,7 @@ jobs:
       
       - uses: actions/configure-pages@v5
       
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: quartz/public
 
